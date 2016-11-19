@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2015
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "signaturemoves.CSharp", "signaturemoves.CSharp.csproj", "{BD1229A5-5822-56B5-DC2C-EBCA31583404}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignatureMoves.CSharp", "SignatureMoves.CSharp.csproj", "{E7C2D6F4-F113-907E-0AFA-B18569D53494}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +9,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BD1229A5-5822-56B5-DC2C-EBCA31583404}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BD1229A5-5822-56B5-DC2C-EBCA31583404}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BD1229A5-5822-56B5-DC2C-EBCA31583404}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BD1229A5-5822-56B5-DC2C-EBCA31583404}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7C2D6F4-F113-907E-0AFA-B18569D53494}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7C2D6F4-F113-907E-0AFA-B18569D53494}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7C2D6F4-F113-907E-0AFA-B18569D53494}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7C2D6F4-F113-907E-0AFA-B18569D53494}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
