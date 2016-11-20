@@ -30,7 +30,7 @@ public class AttractorScript : MonoBehaviour {
 
         //     ParticleList[i].position = CalculateLorenz(ParticleList[i].position);
         // }
-        transform.position = CalculateFabrikant(transform.position);
+        transform.position = CalculateMapping(transform.position);
         //debugText.text = transform.position.ToString();
       //  m_currentParticleEffect.SetParticles(ParticleList, m_currentParticleEffect.particleCount);
     }
@@ -203,7 +203,8 @@ public class AttractorScript : MonoBehaviour {
     {
         float[] pars = new float[30];
         GameObject mark;
-        string code = "JKRADSXGDBHIJTQJJDICEJKYSTXFNU";
+        //string code = "JKRADSXGDBHIJTQJJDICEJKYSTXFNU";
+        string code = "MTISVBKHOIJFWSYEKEGYLWJKEOGVLM";
         pars = DecodePars(code);
         float _x0, _y0, _z0, _x1, _y1, _z1 = 0.0f;
         _x0 = currpos.x;
@@ -218,10 +219,20 @@ public class AttractorScript : MonoBehaviour {
         _y0 = _y1;
         _z0 = _z1;
         result = new Vector3(_x0, _y0, _z0);
-        mark = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        mark.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
-        mark.transform.position = result;
-        //debugText2.text = result.ToString();
+        float count = Resources.FindObjectsOfTypeAll<GameObject>().Length;
+        if (Physics.CheckSphere(result, 0.006f) == false && count < 5000)
+        {
+            mark = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            mark.isStatic = true;
+            mark.GetComponent<Renderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+
+
+            mark.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
+            mark.transform.position = result;
+
+        }
+        
+        //debugText2.text = count.ToString();
 
 
         return result;
@@ -241,6 +252,38 @@ public class AttractorScript : MonoBehaviour {
         }
 
         return decoded;
+    }
+
+    public Vector3 CalculateHindmarsh(Vector3 currpos)
+    {
+        par1 = 1f;
+        par2 = 3f;
+        par3 = 1f;
+        float par4 = 5f;
+        float par5 = 10f;
+        float par6 = 0.001f;
+        float par7 = 4f;
+        float par8 = -8f/5f;
+        float _h = 0.01f;
+        float _x0, _y0, _z0, _x1, _y1, _z1 = 0.0f;
+        _x0 = currpos.x;
+        _y0 = currpos.y;
+        _z0 = currpos.z;
+        float phi = -par1 * _x0 * _x0 * _x0 + par2 * _x0 * _x0;
+        float psi = par3 - par4 * _x0 * _x0;
+        Vector3 result = new Vector3();
+
+        _x1 = _x0 + _h * (_y0 + phi - _z0 + par5);
+        _y1 = _y0 + _h * (psi - _y0);
+        _z1 = _z0 + _h * par6 * (par7 * (_x0 - par8) - _z0 );
+        _x0 = _x1;
+        _y0 = _y1;
+        _z0 = _z1;
+        result = new Vector3(_x0, _y0, _z0);
+        //debugText2.text = result.ToString();
+
+
+        return result;
     }
 
     private void FillDictionary()
