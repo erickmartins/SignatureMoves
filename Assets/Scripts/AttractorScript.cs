@@ -6,8 +6,8 @@ public class AttractorScript : MonoBehaviour {
     //public ParticleSystem Emitter;
     //private ParticleSystem m_currentParticleEffect;
     //private Rigidbody rb;
-    //public Text debugText;
-    public Text debugText2;
+    public Text debugText;
+    //public Text debugText2;
     public float par1, par2, par3;
     Hashtable dictionary = new Hashtable();
 
@@ -219,6 +219,9 @@ public class AttractorScript : MonoBehaviour {
         _y0 = _y1;
         _z0 = _z1;
         result = new Vector3(_x0, _y0, _z0);
+
+
+
         float count = Resources.FindObjectsOfTypeAll<GameObject>().Length;
         if (Physics.CheckSphere(result, 0.006f) == false && count < 5000)
         {
@@ -232,7 +235,7 @@ public class AttractorScript : MonoBehaviour {
 
         }
         
-        //debugText2.text = count.ToString();
+        //debugText.text = Physics.CheckSphere(result, 0.006f).ToString();
 
 
         return result;
