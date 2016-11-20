@@ -12,7 +12,7 @@ public class SpawnScript : MonoBehaviour {
         for (int i = 0; i < numberOfObjects; i++)
         {
             
-            Vector3 pos = new Vector3(Random.Range(-10.0f, 10.0f), Random.Range(-10.0f, 10.0f), Random.Range(-10.0f, 10.0f));
+            Vector3 pos = new Vector3(Random.Range(-1.0f*radius, 1.0f * radius), Random.Range(-1.0f * radius, 1.0f * radius), Random.Range(-1.0f * radius, 1.0f * radius));
             Instantiate(prefab, pos, Quaternion.identity);
         }
     }

@@ -30,7 +30,7 @@ public class AttractorScript : MonoBehaviour {
 
         //     ParticleList[i].position = CalculateLorenz(ParticleList[i].position);
         // }
-        transform.position = CalculateHenon(transform.position);
+        transform.position = CalculateFabrikant(transform.position);
         //debugText.text = transform.position.ToString();
       //  m_currentParticleEffect.SetParticles(ParticleList, m_currentParticleEffect.particleCount);
     }
@@ -118,24 +118,29 @@ public class AttractorScript : MonoBehaviour {
 
     public Vector3 CalculateFabrikant(Vector3 currpos)
     {
-        par1 = 0.1f;
-        par2 = 0.98f;
+        par1 = 0.87f;
+        par2 =1.1f;
         par3 = 3f;
         float par4 = -15.15f;
         float _h = 0.01f;
+        float radius = 0.1f;
         float _x0, _y0, _z0, _x1, _y1, _z1 = 0.0f;
         _x0 = currpos.x;
         _y0 = currpos.y;
         _z0 = currpos.z;
         Vector3 result = new Vector3();
 
-        _x1 = _x0 + _h * ( _y0 * (_z0 - 1f + _x0 * _x0) + par1 * _x0 );
-        _y1 = _y0 + _h * ( _x0 * (3f * _z0 + 1f - _x0 * _x0) + par1 * _y0);
-        _z1 = _z0 + _h * ( -2f * _z0 * (par2 + _x0 * _y0 ));
+        _x1 = _x0 + _h * ( _y0 * _x0 - _y0 + _y0 * _x0 * _x0 + par1 * _x0 );
+        _y1 = _y0 + _h * ( 3 * _x0 * _z0 + _x0 - _x0 * _x0 * _x0 + par1 * _y0);
+        _z1 = _z0 + _h * ( -2f * _z0 * par2 - 2f * _z0 * _x0 * _y0 );
         _x0 = _x1;
         _y0 = _y1;
         _z0 = _z1;
         result = new Vector3(_x0, _y0, _z0);
+        if (result.magnitude > 100f)
+        {
+            result = new Vector3(Random.Range(-1.0f * radius, 1.0f * radius), Random.Range(-1.0f * radius, 1.0f * radius), Random.Range(-1.0f * radius, 1.0f * radius));
+        }
         //debugText2.text = result.ToString();
 
 
@@ -197,6 +202,7 @@ public class AttractorScript : MonoBehaviour {
     public Vector3 CalculateMapping(Vector3 currpos)
     {
         float[] pars = new float[30];
+        GameObject mark;
         string code = "JKRADSXGDBHIJTQJJDICEJKYSTXFNU";
         pars = DecodePars(code);
         float _x0, _y0, _z0, _x1, _y1, _z1 = 0.0f;
@@ -212,6 +218,9 @@ public class AttractorScript : MonoBehaviour {
         _y0 = _y1;
         _z0 = _z1;
         result = new Vector3(_x0, _y0, _z0);
+        mark = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        mark.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
+        mark.transform.position = result;
         //debugText2.text = result.ToString();
 
 
