@@ -6,18 +6,40 @@ public class AttractorScript : MonoBehaviour {
     //public ParticleSystem Emitter;
     //private ParticleSystem m_currentParticleEffect;
     //private Rigidbody rb;
-    public Text debugText;
-    //public Text debugText2;
-    public float par1, par2, par3;
-    Hashtable dictionary = new Hashtable();
 
+    public float par1, par2, par3;
+    void InitializeLorenz()
+    {
+        par1 = 10f;
+        par2 = 28f;
+        par3 = 8.0f / 3.0f;
+    }
+
+    public void setpar1(float newval)
+    {
+        par1 = newval;
+    }
+    public void setpar2(float newval)
+    {
+        par2 = newval;
+    }
+    public void setpar3(float newval)
+    {
+        par3 = newval;
+    }
+    Hashtable dictionary = new Hashtable();
+    
+
+    
     // Use this for initialization
     void Start () {
         //rb = GetComponent<Rigidbody>();
-        // debugText.text = "";
-        //debugText2.text = "";
+        InitializeLorenz();
         FillDictionary();
-        
+        //par1slider = GameObject.Find("par1_slider").GetComponent<Slider>();
+        //par2slider = GameObject.Find("par2_slider").GetComponent<Slider>();
+        //par3slider = GameObject.Find("par3_slider").GetComponent<Slider>();
+
     }
 
     // Update is called once per frame
@@ -30,7 +52,11 @@ public class AttractorScript : MonoBehaviour {
 
         //     ParticleList[i].position = CalculateLorenz(ParticleList[i].position);
         // }
-        transform.position = CalculateMapping(transform.position);
+       // par1 = par1slider.value;
+       // par2 = par2slider.value;
+        //par3 = par3slider.value;
+        
+        transform.position = CalculateLorenz(transform.position);
         //debugText.text = transform.position.ToString();
       //  m_currentParticleEffect.SetParticles(ParticleList, m_currentParticleEffect.particleCount);
     }
@@ -40,9 +66,9 @@ public class AttractorScript : MonoBehaviour {
 
     public Vector3 CalculateLorenz(Vector3 currpos)
     {
-        par1 = 10f;
-        par2 = 28f;
-        par3 = 8.0f / 23.0f;
+        //par1 = 10f;
+        //par2 = 28f;
+        //par3 = 8.0f / 3.0f;
         float _h = 0.01f;
         float _x0, _y0, _z0, _x1, _y1, _z1 = 0.0f;
         _x0 = currpos.x;
@@ -220,21 +246,11 @@ public class AttractorScript : MonoBehaviour {
         _z0 = _z1;
         result = new Vector3(_x0, _y0, _z0);
 
+        GameObject[] mycube = GameObject.FindGameObjectsWithTag("cube");
+        Texture3D tex = (Texture3D)mycube[0].GetComponent<Renderer>().material.mainTexture;
+        Color[] tmp = tex.GetPixels();
+       
 
-
-        float count = Resources.FindObjectsOfTypeAll<GameObject>().Length;
-        if (Physics.CheckSphere(result, 0.006f) == false && count < 5000)
-        {
-            mark = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            mark.isStatic = true;
-            mark.GetComponent<Renderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-
-
-            mark.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
-            mark.transform.position = result;
-
-        }
-        
         //debugText.text = Physics.CheckSphere(result, 0.006f).ToString();
 
 
