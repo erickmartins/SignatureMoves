@@ -7,7 +7,7 @@ public class AttractorScript : MonoBehaviour {
     //private ParticleSystem m_currentParticleEffect;
     //private Rigidbody rb;
     private Mesh mesh;
-    public int currentAttractor = 0;
+    public int currentAttractor;
     Hashtable dictionary = new Hashtable();
     static int numPoints = 60000;
     Vector3[] points = new Vector3[numPoints];
@@ -15,15 +15,46 @@ public class AttractorScript : MonoBehaviour {
     Color[] colors = new Color[numPoints];
     int counter = 0;
     Color c = Color.white;
-    public float par1, par2, par3;
-   
-
+    public float par1, par2, par3,par4, par5, par6, par7, par8;
+    float _x0, _y0, _z0, _x1, _y1, _z1 = 0.0f;
+    float _h;
+    float radius;
+    Vector3 result = new Vector3();
+    float phi, psi;
+    string code = "MTISVBKHOIJFWSYEKEGYLWJKEOGVLM";
+    float[] pars = new float[30];
 
 
 
     public void SwitchAttractor(int attractor)
     {
         currentAttractor = attractor;
+        switch (currentAttractor)
+        {
+            case 0:
+                StartLorenz();
+                break;
+            case 1:
+                StartRoessler();
+                break;
+            
+            case 2:
+                StartFabrikant();
+                break;
+            case 3:
+                StartThomas();
+                break;
+            case 4:
+                StartHenon();
+                break;
+            case 5:
+                StartHindmarsh();
+                break;
+            case 6:
+                StartMapping();
+                break;
+
+        }
     }
 
 
@@ -40,16 +71,65 @@ public class AttractorScript : MonoBehaviour {
     {
         par3 = newval;
     }
+    public void setpar4(float newval)
+    {
+        par4 = newval;
+    }
 
     void StartLorenz()
     {
         par1 = 10f;
         par2 = 28f;
         par3 = 8.0f / 3.0f;
+
     }
+
+    void StartRoessler()
+    {
+        par1 = 0.1f;
+        par2 = 0.1f;
+        par3 = 14f;
+
+    }
+
+   
+    void StartFabrikant()
+    {
+        par1 = 0.87f;
+        par2 = 1.1f;
+        
+
+    }
+
+    void StartThomas()
+    {
+        par1 = 0.2f;
+        
+
+    }
+
+    void StartHenon()
+    {
+        par1 = 0.85f;
+        par2 = 0.5f;
+       
+
+    }
+
+    void StartHindmarsh()
+    {
+        par1 = 1f;
+        par2 = 3f;
+        par3 = 1f;
+        par4 = 5f;
+
+    }
+
 
     void StartMapping()
     {
+
+        mesh = new Mesh();
         counter = 0;
         points[counter] = new Vector3(0.1f * Random.Range(-1, 1), 0.1f * Random.Range(-1, 1), 0.1f * Random.Range(-1, 1));
 
@@ -63,6 +143,9 @@ public class AttractorScript : MonoBehaviour {
         mesh.SetIndices(indices, MeshTopology.Points, 0);
         GetComponent<MeshFilter>().mesh = mesh;
         counter += 1;
+        
+
+        
     }
     
     // Use this for initialization
@@ -78,6 +161,22 @@ public class AttractorScript : MonoBehaviour {
                 StartLorenz();
                 break;
             case 1:
+                StartRoessler();
+                break;
+            
+            case 2:
+                StartFabrikant();
+                break;
+            case 3:
+                StartThomas();
+                break;
+            case 4:
+                StartHenon();
+                break;
+            case 5:
+                StartHindmarsh();
+                break;
+            case 6:
                 StartMapping();
                 break;
 
@@ -108,6 +207,22 @@ public class AttractorScript : MonoBehaviour {
                 UpdateLorenz();
                 break;
             case 1:
+                UpdateRoessler();
+                break;
+            
+            case 2:
+                UpdateFabrikant();
+                break;
+            case 3:
+                UpdateThomas();
+                break;
+            case 4:
+                UpdateHenon();
+                break;
+            case 5:
+                UpdateHindmarsh();
+                break;
+            case 6:
                 UpdateMesh();
                 break;
 
@@ -127,11 +242,38 @@ public class AttractorScript : MonoBehaviour {
         transform.position = CalculateLorenz(transform.position);
     }
 
+    void UpdateRoessler()
+    {
+        transform.position = CalculateRoessler(transform.position);
+    }
+
+    
+
+    void UpdateFabrikant()
+    {
+        transform.position = CalculateFabrikant(transform.position);
+    }
+
+    void UpdateThomas()
+    {
+        transform.position = CalculateThomas(transform.position);
+    }
+
+    void UpdateHenon()
+    {
+        transform.position = CalculateHenon(transform.position);
+    }
+
+    void UpdateHindmarsh()
+    {
+        transform.position = CalculateHindmarsh(transform.position);
+    }
+
     void UpdateMesh()
     {
         Mesh mesh = GetComponent<MeshFilter>().mesh;
         Vector3[] vertices = mesh.vertices;
-        Debug.Log(counter);
+        //Debug.Log(counter);
         vertices[counter] = CalculateMapping(vertices[counter - 1]);
         //Vector3 tst = points[i - 1];
         indices[counter] = counter;
@@ -152,12 +294,15 @@ public class AttractorScript : MonoBehaviour {
         //par1 = 10f;
         //par2 = 28f;
         //par3 = 8.0f / 3.0f;
-        float _h = 0.01f;
-        float _x0, _y0, _z0, _x1, _y1, _z1 = 0.0f;
+        _h= 0.01f;
+        
+        _x1 = 0.0f;
+        _y1 = 0.0f;
+        _z1 = 0.0f;
         _x0 = currpos.x;
         _y0 = currpos.y;
         _z0 = currpos.z;
-        Vector3 result = new Vector3();
+        
         
         _x1 = _x0 + _h * par1 * (_y0 - _x0);
         
@@ -166,7 +311,7 @@ public class AttractorScript : MonoBehaviour {
         _x0 = _x1;
         _y0 = _y1;
         _z0 = _z1;
-        result = new Vector3(_x0, _y0, _z0);
+        result.Set(_x0, _y0, _z0);
         //debugText2.text = result.ToString();
         
 
@@ -176,68 +321,48 @@ public class AttractorScript : MonoBehaviour {
 
     public Vector3 CalculateRoessler(Vector3 currpos)
     {
-        par1 = 0.1f;
-        par2 = 0.1f;
-        par3 = 14f;
-        float _h = 0.01f;
-        float _x0, _y0, _z0, _x1, _y1, _z1 = 0.0f;
+        
+        _h = 0.01f;
+        _x1 = 0.0f;
+        _y1 = 0.0f;
+        _z1 = 0.0f;
         _x0 = currpos.x;
         _y0 = currpos.y;
         _z0 = currpos.z;
-        Vector3 result = new Vector3();
+        
 
-        _x1 = _x0 + _h * (- _y0 - _z0);
-        _y1 = _y0 + _h * (_x0 + par1 * _y0);
-        _z1 = _z0 + _h * (par2 + _z0 * (_x0 - par3) );
+        _x1 = _x0 + _h * (- _z0 - _y0);
+        _z1 = _z0 + _h * (_x0 + par1 * _z0);
+        _y1 = _y0 + _h * (par2 + _y0 * (_x0 - par3) );
         _x0 = _x1;
         _y0 = _y1;
         _z0 = _z1;
-        result = new Vector3(_x0, _y0, _z0);
+        result.Set(_x0, _y0, _z0);
+        radius = 1.0f;
+        if (result.magnitude > 1000f)
+        {
+            result.Set(Random.Range(-1.0f * radius, 1.0f * radius), Random.Range(-1.0f * radius, 1.0f * radius), Random.Range(-1.0f * radius, 1.0f * radius));
+        }
         //debugText2.text = result.ToString();
 
 
         return result;
     }
 
-    public Vector3 CalculateChen(Vector3 currpos)
-    {
-        par1 = 36f;
-        par2 = 20f;
-        par3 = 3f;
-        float par4 = -15.15f;
-        float _h = 0.01f;
-        float _x0, _y0, _z0, _x1, _y1, _z1 = 0.0f;
-        _x0 = currpos.x;
-        _y0 = currpos.y;
-        _z0 = currpos.z;
-        Vector3 result = new Vector3();
-
-        _x1 = _x0 + _h * par1 * (_y0 - _x0);
-        _y1 = _y0 + _h * ( _x0 - _x0 * _z0 + par3 * _y0 + par4);
-        _z1 = _z0 + _h * (_x0 * _y0 - par2 * _z0);
-        _x0 = _x1;
-        _y0 = _y1;
-        _z0 = _z1;
-        result = new Vector3(_x0, _y0, _z0);
-        //debugText2.text = result.ToString();
-
-
-        return result;
-    }
+   
 
     public Vector3 CalculateFabrikant(Vector3 currpos)
     {
-        par1 = 0.87f;
-        par2 =1.1f;
-        par3 = 3f;
-        float par4 = -15.15f;
-        float _h = 0.01f;
-        float radius = 0.1f;
-        float _x0, _y0, _z0, _x1, _y1, _z1 = 0.0f;
+        
+        _h = 0.001f;
+        radius = 0.1f;
+        _x1 = 0.0f;
+        _y1 = 0.0f;
+        _z1 = 0.0f;
         _x0 = currpos.x;
         _y0 = currpos.y;
         _z0 = currpos.z;
-        Vector3 result = new Vector3();
+       
 
         _x1 = _x0 + _h * ( _y0 * _x0 - _y0 + _y0 * _x0 * _x0 + par1 * _x0 );
         _y1 = _y0 + _h * ( 3 * _x0 * _z0 + _x0 - _x0 * _x0 * _x0 + par1 * _y0);
@@ -245,10 +370,10 @@ public class AttractorScript : MonoBehaviour {
         _x0 = _x1;
         _y0 = _y1;
         _z0 = _z1;
-        result = new Vector3(_x0, _y0, _z0);
+        result.Set(_x0, _y0, _z0);
         if (result.magnitude > 100f)
         {
-            result = new Vector3(Random.Range(-1.0f * radius, 1.0f * radius), Random.Range(-1.0f * radius, 1.0f * radius), Random.Range(-1.0f * radius, 1.0f * radius));
+            result.Set(Random.Range(-1.0f * radius, 1.0f * radius), Random.Range(-1.0f * radius, 1.0f * radius), Random.Range(-1.0f * radius, 1.0f * radius));
         }
         //debugText2.text = result.ToString();
 
@@ -258,16 +383,15 @@ public class AttractorScript : MonoBehaviour {
 
     public Vector3 CalculateThomas(Vector3 currpos)
     {
-        par1 = 0.2f;
-        par2 = 0.98f;
-        par3 = 3f;
-        float par4 = -15.15f;
-        float _h = 0.1f;
-        float _x0, _y0, _z0, _x1, _y1, _z1 = 0.0f;
+        
+        _h = 0.1f;
+        _x1 = 0.0f;
+        _y1 = 0.0f;
+        _z1 = 0.0f;
         _x0 = currpos.x;
         _y0 = currpos.y;
         _z0 = currpos.z;
-        Vector3 result = new Vector3();
+        
 
         _x1 = _x0 + _h * (Mathf.Sin(_y0) - par1 * _x0 );
         _y1 = _y0 + _h * (Mathf.Sin(_z0) - par1 * _y0);
@@ -275,7 +399,7 @@ public class AttractorScript : MonoBehaviour {
         _x0 = _x1;
         _y0 = _y1;
         _z0 = _z1;
-        result = new Vector3(_x0, _y0, _z0);
+        result.Set(_x0, _y0, _z0);
         //debugText2.text = result.ToString();
 
 
@@ -284,16 +408,15 @@ public class AttractorScript : MonoBehaviour {
 
     public Vector3 CalculateHenon(Vector3 currpos)
     {
-        par1 = 0.85f;
-        par2 = 0.5f;
-        par3 = 3f;
-        float par4 = -15.15f;
-        float _h = 0.01f;
-        float _x0, _y0, _z0, _x1, _y1, _z1 = 0.0f;
+        
+        _h = 0.1f;
+        _x1 = 0.0f;
+        _y1 = 0.0f;
+        _z1 = 0.0f;
         _x0 = currpos.x;
         _y0 = currpos.y;
         _z0 = currpos.z;
-        Vector3 result = new Vector3();
+        
 
         _x1 = _x0 + _h * (_y0);
         _y1 = _y0 + _h * (_x0  - _x0 *_z0 - par1 * _y0);
@@ -301,7 +424,12 @@ public class AttractorScript : MonoBehaviour {
         _x0 = _x1;
         _y0 = _y1;
         _z0 = _z1;
-        result = new Vector3(_x0, _y0, _z0);
+        result.Set(_x0, _y0, _z0);
+        radius = 1.0f;
+        if (result.magnitude > 1000f)
+        {
+            result.Set(Random.Range(-1.0f * radius, 1.0f * radius), Random.Range(-1.0f * radius, 1.0f * radius), Random.Range(-1.0f * radius, 1.0f * radius));
+        }
         //debugText2.text = result.ToString();
 
 
@@ -310,17 +438,19 @@ public class AttractorScript : MonoBehaviour {
 
     public Vector3 CalculateMapping(Vector3 currpos)
     {
-        float[] pars = new float[30];
-        GameObject mark;
+        
+        
         //string code = "JKRADSXGDBHIJTQJJDICEJKYSTXFNU";
-        string code = "MTISVBKHOIJFWSYEKEGYLWJKEOGVLM";
+        
         //string code = "OHGWFIHJPSGWTOJBXWJKPBLKFRUKKQ";
-        pars = DecodePars(code);
-        float _x0, _y0, _z0, _x1, _y1, _z1 = 0.0f;
+        DecodePars(code);
+        _x1 = 0.0f;
+        _y1 = 0.0f;
+        _z1 = 0.0f;
         _x0 = currpos.x;
         _y0 = currpos.y;
         _z0 = currpos.z;
-        Vector3 result = new Vector3();
+        
 
         _x1 = pars[0] + pars[1] * _x0 + pars[2] * _x0 * _x0 + pars[3] * _x0 * _y0 + pars[4] * _x0 * _z0 + pars[5] * _y0 + pars[6] * _y0 * _y0 + pars[7] * _y0 * _z0 + pars[8] * _z0 + pars[9] * _z0 * _z0;
         _y1 = pars[10] + pars[11] * _x0 + pars[12] * _x0 * _x0 + pars[13] * _x0 * _y0 + pars[14] * _x0 * _z0 + pars[15] * _y0 + pars[16] * _y0 * _y0 + pars[17] * _y0 * _z0 + pars[18] * _z0 + pars[19] * _z0 * _z0;
@@ -328,8 +458,12 @@ public class AttractorScript : MonoBehaviour {
         _x0 = _x1;
         _y0 = _y1;
         _z0 = _z1;
-        result = new Vector3(_x0, _y0, _z0);
-
+        result.Set(_x0, _y0, _z0);
+        radius = 1.0f;
+        if (result.magnitude > 1000f)
+        {
+            result.Set(Random.Range(-1.0f * radius, 1.0f * radius), Random.Range(-1.0f * radius, 1.0f * radius), Random.Range(-1.0f * radius, 1.0f * radius));
+        }
 
 
 
@@ -341,38 +475,38 @@ public class AttractorScript : MonoBehaviour {
 
 
 
-    private float[] DecodePars(string code)
+    private void DecodePars(string code)
     {
-        float[] decoded = new float[30];
+        
         int i = 0;
+        char current;
         for (i = 0; i < code.Length; i++)
         {
-            char current = code[i];
-            decoded[i] = (float)dictionary[current.ToString()];
+            current = code[i];
+            pars[i] = (float)dictionary[current.ToString()];
 
         }
 
-        return decoded;
+        
     }
 
     public Vector3 CalculateHindmarsh(Vector3 currpos)
     {
-        par1 = 1f;
-        par2 = 3f;
-        par3 = 1f;
-        float par4 = 5f;
-        float par5 = 10f;
-        float par6 = 0.001f;
-        float par7 = 4f;
-        float par8 = -8f/5f;
-        float _h = 0.01f;
-        float _x0, _y0, _z0, _x1, _y1, _z1 = 0.0f;
+        
+        par5 = 10f;
+        par6 = 0.001f;
+        par7 = 4f;
+        par8 = -8f/5f;
+        _h = 0.01f;
+        _x1 = 0.0f;
+        _y1 = 0.0f;
+        _z1 = 0.0f;
         _x0 = currpos.x;
         _y0 = currpos.y;
         _z0 = currpos.z;
-        float phi = -par1 * _x0 * _x0 * _x0 + par2 * _x0 * _x0;
-        float psi = par3 - par4 * _x0 * _x0;
-        Vector3 result = new Vector3();
+        phi = -par1 * _x0 * _x0 * _x0 + par2 * _x0 * _x0;
+        psi = par3 - par4 * _x0 * _x0;
+        
 
         _x1 = _x0 + _h * (_y0 + phi - _z0 + par5);
         _y1 = _y0 + _h * (psi - _y0);
@@ -380,7 +514,12 @@ public class AttractorScript : MonoBehaviour {
         _x0 = _x1;
         _y0 = _y1;
         _z0 = _z1;
-        result = new Vector3(_x0, _y0, _z0);
+        result.Set(_x0, _y0, _z0);
+        radius = 1.0f;
+        if (result.magnitude > 1000f)
+        {
+            result.Set(Random.Range(-1.0f * radius, 1.0f * radius), Random.Range(-1.0f * radius, 1.0f * radius), Random.Range(-1.0f * radius, 1.0f * radius));
+        }
         //debugText2.text = result.ToString();
 
 
