@@ -1,19 +1,32 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
-
+[RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class AttractorScript : MonoBehaviour {
     //public ParticleSystem Emitter;
     //private ParticleSystem m_currentParticleEffect;
     //private Rigidbody rb;
-
+    private Mesh mesh;
+    public int currentAttractor = 0;
+    Hashtable dictionary = new Hashtable();
+    static int numPoints = 60000;
+    Vector3[] points = new Vector3[numPoints];
+    int[] indices = new int[numPoints];
+    Color[] colors = new Color[numPoints];
+    int counter = 0;
+    Color c = Color.white;
     public float par1, par2, par3;
-    void InitializeLorenz()
+   
+
+
+
+
+    public void SwitchAttractor(int attractor)
     {
-        par1 = 10f;
-        par2 = 28f;
-        par3 = 8.0f / 3.0f;
+        currentAttractor = attractor;
     }
+
+
 
     public void setpar1(float newval)
     {
@@ -27,15 +40,49 @@ public class AttractorScript : MonoBehaviour {
     {
         par3 = newval;
     }
-    Hashtable dictionary = new Hashtable();
-    
 
+    void StartLorenz()
+    {
+        par1 = 10f;
+        par2 = 28f;
+        par3 = 8.0f / 3.0f;
+    }
+
+    void StartMapping()
+    {
+        counter = 0;
+        points[counter] = new Vector3(0.1f * Random.Range(-1, 1), 0.1f * Random.Range(-1, 1), 0.1f * Random.Range(-1, 1));
+
+        indices[counter] = counter;
+
+        colors[counter] = c;
+
+
+        mesh.vertices = points;
+        mesh.colors = colors;
+        mesh.SetIndices(indices, MeshTopology.Points, 0);
+        GetComponent<MeshFilter>().mesh = mesh;
+        counter += 1;
+    }
     
     // Use this for initialization
     void Start () {
         //rb = GetComponent<Rigidbody>();
-        InitializeLorenz();
+        
         FillDictionary();
+        mesh = new Mesh();
+        GetComponent<MeshFilter>().mesh = mesh;
+        switch (currentAttractor)
+        {
+            case 0:
+                StartLorenz();
+                break;
+            case 1:
+                StartMapping();
+                break;
+
+        }
+        //StartMapping();
         //par1slider = GameObject.Find("par1_slider").GetComponent<Slider>();
         //par2slider = GameObject.Find("par2_slider").GetComponent<Slider>();
         //par3slider = GameObject.Find("par3_slider").GetComponent<Slider>();
@@ -52,16 +99,52 @@ public class AttractorScript : MonoBehaviour {
 
         //     ParticleList[i].position = CalculateLorenz(ParticleList[i].position);
         // }
-       // par1 = par1slider.value;
-       // par2 = par2slider.value;
+        // par1 = par1slider.value;
+        // par2 = par2slider.value;
         //par3 = par3slider.value;
+        switch (currentAttractor)
+        {
+            case 0:
+                UpdateLorenz();
+                break;
+            case 1:
+                UpdateMesh();
+                break;
+
+        }
         
-        transform.position = CalculateLorenz(transform.position);
+
+        //transform.position = CalculateLorenz(transform.position);
+
+
+
         //debugText.text = transform.position.ToString();
       //  m_currentParticleEffect.SetParticles(ParticleList, m_currentParticleEffect.particleCount);
     }
 
-    
+    void UpdateLorenz()
+    {
+        transform.position = CalculateLorenz(transform.position);
+    }
+
+    void UpdateMesh()
+    {
+        Mesh mesh = GetComponent<MeshFilter>().mesh;
+        Vector3[] vertices = mesh.vertices;
+        Debug.Log(counter);
+        vertices[counter] = CalculateMapping(vertices[counter - 1]);
+        //Vector3 tst = points[i - 1];
+        indices[counter] = counter;
+
+        colors[counter] = c;
+
+
+        mesh.vertices = vertices;
+        mesh.colors = colors;
+        mesh.SetIndices(indices, MeshTopology.Points, 0);
+        //GetComponent<MeshFilter>().mesh = mesh;
+        counter += 1;
+    }
 
 
     public Vector3 CalculateLorenz(Vector3 currpos)
@@ -231,6 +314,7 @@ public class AttractorScript : MonoBehaviour {
         GameObject mark;
         //string code = "JKRADSXGDBHIJTQJJDICEJKYSTXFNU";
         string code = "MTISVBKHOIJFWSYEKEGYLWJKEOGVLM";
+        //string code = "OHGWFIHJPSGWTOJBXWJKPBLKFRUKKQ";
         pars = DecodePars(code);
         float _x0, _y0, _z0, _x1, _y1, _z1 = 0.0f;
         _x0 = currpos.x;
@@ -246,10 +330,8 @@ public class AttractorScript : MonoBehaviour {
         _z0 = _z1;
         result = new Vector3(_x0, _y0, _z0);
 
-        GameObject[] mycube = GameObject.FindGameObjectsWithTag("cube");
-        Texture3D tex = (Texture3D)mycube[0].GetComponent<Renderer>().material.mainTexture;
-        Color[] tmp = tex.GetPixels();
-       
+
+
 
         //debugText.text = Physics.CheckSphere(result, 0.006f).ToString();
 
@@ -257,7 +339,7 @@ public class AttractorScript : MonoBehaviour {
         return result;
     }
 
-    
+
 
     private float[] DecodePars(string code)
     {
