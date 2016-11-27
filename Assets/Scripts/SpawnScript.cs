@@ -10,7 +10,8 @@ public class SpawnScript : MonoBehaviour {
     public int numberOfObjects = 100;
     public float radius = 50f;
     public List<GameObject> allclones = new List<GameObject>();
-    
+    public List<GameObject> allmappers = new List<GameObject>();
+
     void Start()
     {
         SetupSpawn();
@@ -19,14 +20,36 @@ public class SpawnScript : MonoBehaviour {
 
     public void SetupSpawn()
     {
-        if (myDropdown.value == 1)
+
+        switch (myDropdown.value)
         {
-            SpawnSpheres(5, true, prefab_mapping);
+            case 0:
+                SpawnSpheres(numberOfObjects, false, prefab_common, 0.1f);
+                break;
+            case 1:
+                SpawnSpheres(numberOfObjects, false, prefab_common, 10.0f);
+                break;
+
+           
+            case 2:
+                SpawnSpheres(numberOfObjects, false, prefab_common, 10.0f);
+                break;
+            case 3:
+                SpawnSpheres(numberOfObjects, false, prefab_common, 10.0f);
+                break;
+            case 4:
+                SpawnSpheres(numberOfObjects, false, prefab_common, 10.0f);
+                break;
+            case 5:
+                SpawnSpheres(numberOfObjects, false, prefab_common, 10.0f);
+                break;
+            
+
+            case 6:
+                SpawnSpheres(5, true, prefab_mapping, 0);
+                break;
         }
-        else
-        {
-            SpawnSpheres(numberOfObjects, false, prefab_common);
-        }
+        
     }
 
     public void DestroySpheres()
@@ -34,26 +57,60 @@ public class SpawnScript : MonoBehaviour {
         allclones= new List<GameObject>();
     }
 
-    public void SpawnSpheres(int num, bool isMapping, GameObject prefab)
+    public void SpawnSpheres(int num, bool isMapping, GameObject prefab, float radius)
     {
+        Vector3 pos = new Vector3();
+        Object test;
         if (isMapping == true)
         {
-            for (int i = 0; i < num; i++)
+            if (allmappers.Count > 1)
             {
+                for (int i = 0; i < num; i++)
+                {
 
-                Vector3 pos = new Vector3(0f,0f,0f);
-                Object test = Instantiate(prefab, pos, Quaternion.identity);
-                allclones.Add((GameObject)test);
+                    pos.Set(Random.Range(-1.0f * radius, 1.0f * radius), Random.Range(-1.0f * radius, 1.0f * radius), Random.Range(-1.0f * radius, 1.0f * radius));
+                    allmappers[i].GetComponent<Transform>().position = pos;
+
+                }
+            }else
+            {
+                for (int i = 0; i < num; i++)
+                {
+
+                    pos.Set(0f, 0f, 0f);
+                    test = Instantiate(prefab, pos, Quaternion.identity);
+                    allmappers.Add((GameObject)test);
+                }
             }
+
+                
         }else
         {
-            for (int i = 0; i < num; i++)
+            if (allclones.Count > 1)
             {
+                //Debug.Log(allclones.Count);
+                
+                for (int i = 0; i < num; i++)
+                {
 
-                Vector3 pos = new Vector3(Random.Range(-1.0f * radius, 1.0f * radius), Random.Range(-1.0f * radius, 1.0f * radius), Random.Range(-1.0f * radius, 1.0f * radius));
-                Object test = Instantiate(prefab, pos, Quaternion.identity);
-                allclones.Add((GameObject)test);
+                    pos.Set(Random.Range(-1.0f * radius, 1.0f * radius), Random.Range(-1.0f * radius, 1.0f * radius), Random.Range(-1.0f * radius, 1.0f * radius));
+                    allclones[i].GetComponent<Transform>().position = pos;
+
+                }
             }
+            else
+            {
+                for (int i = 0; i < num; i++)
+                {
+
+                    pos.Set(Random.Range(-1.0f * radius, 1.0f * radius), Random.Range(-1.0f * radius, 1.0f * radius), Random.Range(-1.0f * radius, 1.0f * radius));
+                    test = Instantiate(prefab, pos, Quaternion.identity);
+                    allclones.Add((GameObject)test);
+
+                }
+                
+            }
+            
         }
         
     }
