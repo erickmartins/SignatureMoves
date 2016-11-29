@@ -52,10 +52,7 @@ public class SpawnScript : MonoBehaviour {
         
     }
 
-    public void DestroySpheres()
-    {
-        allclones= new List<GameObject>();
-    }
+    
 
     public void SpawnSpheres(int num, bool isMapping, GameObject prefab, float radius)
     {
@@ -88,13 +85,22 @@ public class SpawnScript : MonoBehaviour {
         {
             if (allclones.Count > 1)
             {
-                //Debug.Log(allclones.Count);
+                
                 
                 for (int i = 0; i < num; i++)
                 {
-
+                    //Debug.Log(i);
+                    //Debug.Log(allclones[i]);
                     pos.Set(Random.Range(-1.0f * radius, 1.0f * radius), Random.Range(-1.0f * radius, 1.0f * radius), Random.Range(-1.0f * radius, 1.0f * radius));
-                    allclones[i].GetComponent<Transform>().position = pos;
+                    if (allclones[i] == null)
+                    {
+                        test = Instantiate(prefab, pos, Quaternion.identity);
+                        allclones[i] = (GameObject)test;
+                    }else
+                    {
+                        allclones[i].GetComponent<Transform>().position = pos;
+                    }
+                    
 
                 }
             }

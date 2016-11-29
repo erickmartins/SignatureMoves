@@ -64,7 +64,7 @@ public class CameraControl : MonoBehaviour {
         if (Input.GetKey(KeyCode.Q)) { transform.position += transform.up * climbSpeed * Time.deltaTime; }
         if (Input.GetKey(KeyCode.E)) { transform.position -= transform.up * climbSpeed * Time.deltaTime; }
 
-        if (Input.GetKeyDown(KeyCode.End))
+        if (Input.GetKeyDown(KeyCode.C))
         {
             Screen.lockCursor = (Screen.lockCursor == false) ? true : false;
         }

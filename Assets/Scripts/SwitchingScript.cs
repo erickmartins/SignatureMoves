@@ -50,10 +50,10 @@ public class SwitchingScript : MonoBehaviour {
 
     private void myDropdownValueChangedHandler(Dropdown target)
     {
-        
-        
-        
-       
+
+
+
+        //Debug.Log(target.value);
         thescript.SetupSpawn();
         allinstances = thescript.allclones;
         allmaps = thescript.allmappers;
@@ -63,7 +63,7 @@ public class SwitchingScript : MonoBehaviour {
             for (int i = 0; i < allinstances.Count; i++)
             {
                 thescript.allclones[i].GetComponent<AttractorScript>().SwitchAttractor(target.value);
-                thescript.allclones[i].SetActive(true);
+                thescript.allclones[i].SetActive(true);    //not working fine, maybe just change alpha?
             }
             for (int i = 0; i < allmaps.Count; i++)
             {
