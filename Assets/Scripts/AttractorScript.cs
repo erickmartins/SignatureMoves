@@ -413,17 +413,17 @@ public class AttractorScript : MonoBehaviour {
         _x1 = 0.0f;
         _y1 = 0.0f;
         _z1 = 0.0f;
-        _x0 = currpos.x;
-        _y0 = currpos.y;
-        _z0 = currpos.z;
+        _x0 = 0.1f*currpos.x;
+        _y0 = 0.1f * currpos.y;
+        _z0 = 0.1f * currpos.z;
         
 
         _x1 = _x0 + _h * (_y0);
         _y1 = _y0 + _h * (_x0  - _x0 *_z0 - par1 * _y0);
         _z1 = _z0 + _h * (_x0 * _x0 - par2 * _z0 );
-        _x0 = _x1;
-        _y0 = _y1;
-        _z0 = _z1;
+        _x0 = 10f*_x1;
+        _y0 = 10f * _y1;
+        _z0 = 10f * _z1;
         result.Set(_x0, _y0, _z0);
         radius = 1.0f;
         if (result.magnitude > 1000f)
@@ -492,7 +492,7 @@ public class AttractorScript : MonoBehaviour {
 
     public Vector3 CalculateHindmarsh(Vector3 currpos)
     {
-        
+        float noiseradius = 0.000001f;
         par5 = 10f;
         par6 = 0.001f;
         par7 = 4f;
@@ -511,9 +511,9 @@ public class AttractorScript : MonoBehaviour {
         _x1 = _x0 + _h * (_y0 + phi - _z0 + par5);
         _y1 = _y0 + _h * (psi - _y0);
         _z1 = _z0 + _h * par6 * (par7 * (_x0 - par8) - _z0 );
-        _x0 = _x1;
-        _y0 = _y1;
-        _z0 = _z1;
+        _x0 = _x1+ Random.Range(-1.0f * noiseradius, 1.0f * noiseradius);
+        _y0 = _y1+ Random.Range(-1.0f * noiseradius, 1.0f * noiseradius);
+        _z0 = _z1+ Random.Range(-1.0f * noiseradius, 1.0f * noiseradius);
         result.Set(_x0, _y0, _z0);
         radius = 1.0f;
         if (result.magnitude > 1000f)

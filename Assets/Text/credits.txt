@@ -1,0 +1,41 @@
+﻿Signature Moves - a nonviolent (dynamical) systems game
+
+
+Music by:
+
+Chris Zabriskie
+
+(he licenses his whole catalogue under Creative Commons.
+You should check him out at http://chriszabriskie.com/)
+
+Everything (but the music) by: 
+
+Erick Ratamero
+
+
+Acknowledgements:
+
+Edward Lorenz
+Otto Rössler
+Mikhail Rabinovich and Anatoly Fabrikant
+René Thomas
+Michel Hénon
+James Hindmarsh and Malcolm Rose
+Julien Sprott
+
+for coming up with the wonderful 
+systems presented here.
+
+
+Prof. Khashayar Pakdaman (Univ. Paris 7 - Diderot)
+
+for introducing me to these systems.
+
+
+The Idle Thumbs Community
+
+for being the most welcoming and supportive 
+place on the Internet.
+
+
+Thanks for trying my weird project thing!

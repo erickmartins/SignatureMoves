@@ -25,7 +25,7 @@ public class CameraControl : MonoBehaviour {
     public float normalMoveSpeed = 10;
     public float slowMoveFactor = 0.25f;
     public float fastMoveFactor = 3;
-
+    private int counter = 1;
     private float rotationX = 0.0f;
     private float rotationY = 0.0f;
 
@@ -64,10 +64,18 @@ public class CameraControl : MonoBehaviour {
         if (Input.GetKey(KeyCode.Q)) { transform.position += transform.up * climbSpeed * Time.deltaTime; }
         if (Input.GetKey(KeyCode.E)) { transform.position -= transform.up * climbSpeed * Time.deltaTime; }
 
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             Screen.lockCursor = (Screen.lockCursor == false) ? true : false;
         }
+    }
+
+
+    public void Screenshot()
+    {
+        string filename = "screenshot" + counter.ToString()+".png";
+        Application.CaptureScreenshot(filename);
+        counter += 1;
     }
 }
 

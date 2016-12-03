@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class UpdatePar1 : MonoBehaviour {
     private bool needupdate = false;
-    public List<GameObject> allinstances = new List<GameObject>();
-    private GameObject thespawner;
+    private List<GameObject> allinstances = new List<GameObject>();
+    public GameObject thespawner;
     private SpawnScript thescript;
 	// Use this for initialization
 	void Start () {
@@ -31,8 +31,11 @@ public class UpdatePar1 : MonoBehaviour {
     {
         for (int i = 0; i < allinstances.Count; i++)
         {
-            AttractorScript tmp = thescript.allclones[i].GetComponent<AttractorScript>();
-            tmp.setpar1(newval);
+            //Debug.Log(i);
+            //Debug.Log(thescript.allclones[i]);
+            //Debug.Log(thescript.allclones[i].GetComponent<AttractorScript>());
+            thescript.allclones[i].GetComponent<AttractorScript>().setpar1(newval);
+            
         }
     }
 }
