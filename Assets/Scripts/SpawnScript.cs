@@ -12,16 +12,22 @@ public class SpawnScript : MonoBehaviour {
     public List<GameObject> allclones = new List<GameObject>();
     public List<GameObject> allmappers = new List<GameObject>();
     public Text helptext;
+    public GameObject gobbler;
 
     void Start()
     {
         SetupSpawn(numberOfObjects,prefab_common,radius,prefab_mapping);
+        
        
     }
 
     public void SetupSpawn(int num, GameObject prefab, float radius, GameObject prefabmap)
     {
+        gobbler.GetComponent<AttractorGobbler>().SwitchAttractor(myDropdown.value);
+
         Vector3 pos = new Vector3();
+        pos.Set(Random.Range(-1.0f * radius, 1.0f * radius), Random.Range(-1.0f * radius, 1.0f * radius), Random.Range(-1.0f * radius, 1.0f * radius));
+        gobbler.GetComponent<Transform>().position = pos;
         Object test;
         for (int i = 0; i < 5; i++)
         {

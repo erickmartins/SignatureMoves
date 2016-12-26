@@ -10,7 +10,9 @@ public class SwitchingScript : MonoBehaviour {
     private List<GameObject> allinstances = new List<GameObject>();
     private List<GameObject> allmaps = new List<GameObject>();
     private GameObject thespawner;
+    public GameObject thegobbler;
     private SpawnScript thescript;
+    
     GameObject par1_sl, par2_sl, par3_sl, par4_sl, par1_txt, par2_txt, par3_txt, par4_txt;
 
     // Use this for initialization
@@ -31,6 +33,7 @@ public class SwitchingScript : MonoBehaviour {
         thescript = thespawner.GetComponent<SpawnScript>();
         allinstances = thescript.allclones;
         allmaps = thescript.allmappers;
+        
         AdjustUI(myDropdown.value);
     }
 	
@@ -59,6 +62,9 @@ public class SwitchingScript : MonoBehaviour {
         //thescript.SetupSpawn();
         allinstances = thescript.allclones;
         allmaps = thescript.allmappers;
+        thegobbler.GetComponent<AttractorGobbler>().SwitchAttractor(target.value);
+        pos.Set(Random.Range(-1.0f * radius, 1.0f * radius), Random.Range(-1.0f * radius, 1.0f * radius), Random.Range(-1.0f * radius, 1.0f * radius));
+        thegobbler.GetComponent<Transform>().position = pos;
         if (target.value < 6)
         {
             

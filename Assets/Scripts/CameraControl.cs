@@ -28,10 +28,14 @@ public class CameraControl : MonoBehaviour {
     private int counter = 1;
     private float rotationX = 0.0f;
     private float rotationY = 0.0f;
+    private float initsens, initclimb, initmove;
 
     void Start()
     {
         Screen.lockCursor = true;
+        initsens = cameraSensitivity;
+        initmove = normalMoveSpeed;
+        initclimb = climbSpeed;
     }
 
     void Update()
@@ -67,6 +71,9 @@ public class CameraControl : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Screen.lockCursor = (Screen.lockCursor == false) ? true : false;
+            cameraSensitivity = initsens - cameraSensitivity;
+            climbSpeed = initclimb - climbSpeed;
+            normalMoveSpeed = initmove - normalMoveSpeed;
         }
     }
 

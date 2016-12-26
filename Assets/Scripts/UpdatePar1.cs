@@ -5,13 +5,16 @@ using System.Collections.Generic;
 public class UpdatePar1 : MonoBehaviour {
     private bool needupdate = false;
     private List<GameObject> allinstances = new List<GameObject>();
-    public GameObject thespawner;
+    public GameObject gobbler;
+    private GameObject thespawner;
     private SpawnScript thescript;
-	// Use this for initialization
-	void Start () {
+    private AttractorGobbler tmp_gob;
+    // Use this for initialization
+    void Start () {
         thespawner = GameObject.Find("Spawner");
         thescript = thespawner.GetComponent<SpawnScript>();
         allinstances = thescript.allclones;
+        tmp_gob = gobbler.GetComponent<AttractorGobbler>();
         if (allinstances.Count < 2)
         {
             needupdate = true;
@@ -29,6 +32,7 @@ public class UpdatePar1 : MonoBehaviour {
 
     public void updater(float newval)
     {
+        tmp_gob.setpar1(newval);
         for (int i = 0; i < allinstances.Count; i++)
         {
             //Debug.Log(i);
